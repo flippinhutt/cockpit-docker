@@ -2,33 +2,40 @@
 
 A premium, modern Cockpit module for managing Docker containers.
 
-## Features
-- List all containers (running and stopped)
-- Start, stop, and remove containers
-- Glassmorphic UI with dark mode support
-- Automatic refresh every 10 seconds
-
 ## Installation
 
-### Method 1: Automatic (Makefile)
-If you have `make` installed on your Linux node:
+### 1. Install System-Wide (Recommended)
+Run these commands on your Linux node:
 ```bash
 git clone https://github.com/flippinhutt/cockpit-docker.git
 cd cockpit-docker
 sudo make install
 ```
+This installs the module to `/usr/share/cockpit/cockpit-docker`.
 
-### Method 2: Manual
-1. Create the cockpit directory if it doesn't exist:
-   ```bash
-   mkdir -p ~/.local/share/cockpit
-   ```
-2. Link or copy this directory into the cockpit share folder:
-   ```bash
-   ln -s $(pwd) ~/.local/share/cockpit/docker
-   ```
-3. Refresh your Cockpit dashboard. The "Docker Containers" tool should now appear in the sidebar.
+### 2. Verify Installation
+Check if Cockpit sees the package:
+```bash
+cockpit-bridge --packages | grep cockpit-docker
+```
+If you don't see it, try restarting Cockpit:
+```bash
+sudo systemctl restart cockpit
+```
+
+### 3. Permissions
+Ensure the user you log in with has permission to run `docker` commands.
+You can add your user to the `docker` group:
+```bash
+sudo usermod -aG docker $USER
+```
+*Note: You may need to log out and back in for this to take effect.*
+
+## Troubleshooting
+- **Not appearing in sidebar?** Run `cockpit-bridge --packages` to see if it's listed. If not, check that `manifest.json` is in `/usr/share/cockpit/docker/`.
+- **Permission denied?** Ensure the `docker` service is running and your user has access to `/var/run/docker.sock`.
+- **White screen?** Open the browser console (F12) and look for errors. Ensure `cockpit.js` is loading correctly.
 
 ## Requirements
-- `cockpit` installed and running
-- `docker` installed and accessible by the user running Cockpit (usually `root` or a user in the `docker` group)
+- `cockpit` >= 120
+- `docker`

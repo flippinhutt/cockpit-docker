@@ -1,5 +1,5 @@
-DESTDIR ?= ~/.local/share/cockpit
-MOD_NAME = docker
+DESTDIR ?= /usr/share/cockpit
+MOD_NAME = cockpit-docker
 
 install:
 	mkdir -p $(DESTDIR)/$(MOD_NAME)
@@ -8,4 +8,7 @@ install:
 uninstall:
 	rm -rf $(DESTDIR)/$(MOD_NAME)
 
-.PHONY: install uninstall
+debug:
+	cockpit-bridge --packages
+
+.PHONY: install uninstall debug

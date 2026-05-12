@@ -4,6 +4,8 @@ const errorElement = document.getElementById('error-message');
 const errorText = document.getElementById('error-text');
 const refreshBtn = document.getElementById('refresh-btn');
 
+console.log("Cockpit Docker module initializing...");
+
 function showError(msg) {
     errorText.textContent = msg;
     errorElement.classList.remove('hidden');
@@ -78,17 +80,17 @@ function renderContainers(containers) {
             </div>
             <div class="card-actions">
                 ${isRunning 
-                    ? `<button class="btn btn-secondary" onclick="containerAction('stop', '${container.ID}')">Stop</button>`
-                    : `<button class="btn btn-primary" onclick="containerAction('start', '${container.ID}')">Start</button>`
+                    ? `<button class="btn btn-secondary" onclick="containerAction(event, 'stop', '${container.ID}')">Stop</button>`
+                    : `<button class="btn btn-primary" onclick="containerAction(event, 'start', '${container.ID}')">Start</button>`
                 }
-                <button class="btn btn-danger" onclick="containerAction('rm', '${container.ID}')">Remove</button>
+                <button class="btn btn-danger" onclick="containerAction(event, 'rm', '${container.ID}')">Remove</button>
             </div>
         `;
         listElement.appendChild(card);
     });
 }
 
-window.containerAction = function(action, id) {
+window.containerAction = function(event, action, id) {
     const btn = event.target;
     const originalText = btn.textContent;
     btn.textContent = '...';
