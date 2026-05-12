@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Docker Containers</title>
+    <title>Docker Cockpit</title>
     <link rel="stylesheet" href="style.css">
     <script src="../base1/cockpit.js"></script>
 </head>
@@ -11,7 +11,11 @@
     <div class="app-container">
         <header>
             <div class="header-content">
-                <h1>Docker Containers</h1>
+                <h1>Docker Cockpit</h1>
+                <div class="nav-tabs">
+                    <button class="tab-btn active" data-tab="containers">Containers</button>
+                    <button class="tab-btn" data-tab="images">Images</button>
+                </div>
                 <div class="actions">
                     <button id="refresh-btn" class="btn btn-secondary">
                         <span class="icon">↻</span> Refresh
@@ -21,20 +25,45 @@
         </header>
 
         <main>
-            <div id="loading" class="loading-state">
-                <div class="spinner"></div>
-                <p>Fetching containers...</p>
-            </div>
+            <!-- Containers Tab -->
+            <section id="containers-section" class="tab-content active">
+                <div id="loading-containers" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Fetching containers...</p>
+                </div>
+                <div id="container-list" class="container-grid"></div>
+            </section>
+
+            <!-- Images Tab -->
+            <section id="images-section" class="tab-content">
+                <div id="loading-images" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Fetching images...</p>
+                </div>
+                <div id="image-list" class="container-grid"></div>
+            </section>
 
             <div id="error-message" class="error-card hidden">
                 <h3>Error</h3>
                 <p id="error-text"></p>
             </div>
-
-            <div id="container-list" class="container-grid">
-                <!-- Containers will be rendered here -->
-            </div>
         </main>
+
+        <!-- Logs Modal -->
+        <div id="logs-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="logs-title">Container Logs</h2>
+                    <button class="close-btn" onclick="closeModal('logs-modal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <pre id="log-output" class="terminal"></pre>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closeModal('logs-modal')">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="docker.js"></script>
