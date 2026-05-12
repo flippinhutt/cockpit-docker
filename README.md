@@ -59,5 +59,6 @@ sudo usermod -aG docker $USER
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
 
----
-*Created with ❤️ for the homelab community by [StreamHuts](https://streamhuts.com)*
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
