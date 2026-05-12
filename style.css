@@ -313,11 +313,16 @@ h1 {
 .terminal {
     background: #000;
     color: #0f0;
-    padding: 1rem;
-    border-radius: 0.5rem;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
     font-family: 'Fira Code', 'Courier New', monospace;
-    font-size: 0.875rem;
-    overflow-x: auto;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    overflow-y: auto;
     white-space: pre-wrap;
-    min-height: 400px;
+    height: 500px;
+    max-height: 60vh;
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    user-select: text;
 }

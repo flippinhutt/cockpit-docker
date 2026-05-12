@@ -10,6 +10,7 @@ const tabButtons = document.querySelectorAll('.tab-btn');
 const tabSections = document.querySelectorAll('.tab-content');
 
 let currentTab = 'containers';
+let logInterval = null;
 
 console.log("Cockpit Docker module initializing...");
 
@@ -155,16 +156,38 @@ window.showLogs = function(id, name) {
     const output = document.getElementById('log-output');
     document.getElementById('logs-title').textContent = `Logs: ${name}`;
     output.textContent = 'Loading logs...';
+    modal.style.display = 'flex';
     modal.classList.remove('hidden');
 
-    cockpit.spawn(["docker", "logs", "--tail", "200", id])
-        .done(stdout => { output.textContent = stdout; })
-        .fail(err => { output.textContent = "Error: " + err; });
+    const fetchLogContent = () => {
+        cockpit.spawn(["docker", "logs", "--tail", "200", id])
+            .done(stdout => { 
+                output.textContent = stdout; 
+                output.scrollTop = output.scrollHeight; // Auto-scroll to bottom
+            })
+            .fail(err => { output.textContent = "Error: " + err; });
+    };
+
+    fetchLogContent();
+    logInterval = setInterval(fetchLogContent, 2000); // Refresh every 2 seconds
 };
 
 window.closeModal = function(id) {
-    document.getElementById(id).classList.add('hidden');
+    const modal = document.getElementById(id);
+    modal.style.display = 'none';
+    modal.classList.add('hidden');
+    if (logInterval) {
+        clearInterval(logInterval);
+        logInterval = null;
+    }
 };
+
+// Close modal on background click
+document.getElementById('logs-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'logs-modal') {
+        closeModal('logs-modal');
+    }
+});
 
 // Stats Logic
 function fetchStats() {
