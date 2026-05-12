@@ -1,4 +1,9 @@
-// Core Elements
+/**
+ * Cockpit Docker Module
+ * Handles interaction between Cockpit and the Docker CLI.
+ */
+
+// Core DOM Elements
 const containerList = document.getElementById('container-list');
 const imageList = document.getElementById('image-list');
 const loadingContainers = document.getElementById('loading-containers');
@@ -9,27 +14,29 @@ const refreshBtn = document.getElementById('refresh-btn');
 const tabButtons = document.querySelectorAll('.tab-btn');
 const tabSections = document.querySelectorAll('.tab-content');
 
+/** @type {string} Current active tab name */
 let currentTab = 'containers';
+
+/** @type {number|null} Interval ID for log refreshing */
 let logInterval = null;
 
-// Ensure modal is hidden immediately
+// Ensure modal is hidden immediately on script load
 const initialModal = document.getElementById('logs-modal');
 if (initialModal) initialModal.style.display = 'none';
 
+/**
+ * Initializes the module and checks for Cockpit availability.
+ */
 if (typeof cockpit === 'undefined') {
     console.error("Cockpit API not found. This module must run inside Cockpit.");
 } else {
     console.log("Cockpit Docker module initializing...");
 }
 
-// Tab Handling
-tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab;
-        switchTab(tab);
-    });
-});
-
+/**
+ * Switches the active tab and refreshes data.
+ * @param {string} tab - The name of the tab to switch to ('containers' or 'images').
+ */
 function switchTab(tab) {
     currentTab = tab;
     tabButtons.forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
@@ -49,7 +56,9 @@ function refreshData() {
     else if (currentTab === 'images') fetchImages();
 }
 
-// Containers Logic
+/**
+ * Fetches all containers using the Docker CLI in JSON format.
+ */
 function fetchContainers() {
     loadingContainers.classList.remove('hidden');
     errorElement.classList.add('hidden');
@@ -65,6 +74,10 @@ function fetchContainers() {
         });
 }
 
+/**
+ * Renders the list of containers into the DOM.
+ * @param {Array<Object>} containers - List of container objects from Docker CLI.
+ */
 function renderContainers(containers) {
     containerList.innerHTML = '';
     loadingContainers.classList.add('hidden');
@@ -107,7 +120,9 @@ function renderContainers(containers) {
     });
 }
 
-// Images Logic
+/**
+ * Fetches all local Docker images.
+ */
 function fetchImages() {
     loadingImages.classList.remove('hidden');
     
@@ -145,7 +160,12 @@ function renderImages(images) {
     });
 }
 
-// Actions
+/**
+ * Performs a Docker container action (start, stop, rm).
+ * @param {Event} event - The click event.
+ * @param {string} action - The action to perform.
+ * @param {string} id - The container ID.
+ */
 window.containerAction = function(event, action, id) {
     const btn = event.target;
     btn.disabled = true;
