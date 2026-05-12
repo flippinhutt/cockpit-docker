@@ -1,15 +1,17 @@
 {
     "version": 0,
     "tools": {
-        "cockpit-docker": {
+        "docker-management": {
             "label": "Docker Containers",
-            "path": "index.html"
+            "path": "index.html",
+            "priority": 10
         }
     },
     "menu": {
-        "cockpit-docker": {
+        "docker-management": {
             "label": "Docker Containers",
-            "path": "index.html"
+            "path": "index.html",
+            "order": 10
         }
     }
 }

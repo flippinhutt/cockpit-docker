@@ -12,7 +12,15 @@ const tabSections = document.querySelectorAll('.tab-content');
 let currentTab = 'containers';
 let logInterval = null;
 
-console.log("Cockpit Docker module initializing...");
+// Ensure modal is hidden immediately
+const initialModal = document.getElementById('logs-modal');
+if (initialModal) initialModal.style.display = 'none';
+
+if (typeof cockpit === 'undefined') {
+    console.error("Cockpit API not found. This module must run inside Cockpit.");
+} else {
+    console.log("Cockpit Docker module initializing...");
+}
 
 // Tab Handling
 tabButtons.forEach(btn => {

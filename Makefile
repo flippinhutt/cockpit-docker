@@ -4,6 +4,8 @@ MOD_NAME = cockpit-docker
 install:
 	mkdir -p $(DESTDIR)/$(MOD_NAME)
 	cp manifest.json index.html docker.js style.css $(DESTDIR)/$(MOD_NAME)/
+	chmod -R 755 $(DESTDIR)/$(MOD_NAME)
+	chmod 644 $(DESTDIR)/$(MOD_NAME)/*
 
 uninstall:
 	rm -rf $(DESTDIR)/$(MOD_NAME)
