@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Containers</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../base1/cockpit.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <div class="header-content">
+                <h1>Docker Containers</h1>
+                <div class="actions">
+                    <button id="refresh-btn" class="btn btn-secondary">
+                        <span class="icon">↻</span> Refresh
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div id="loading" class="loading-state">
+                <div class="spinner"></div>
+                <p>Fetching containers...</p>
+            </div>
+
+            <div id="error-message" class="error-card hidden">
+                <h3>Error</h3>
+                <p id="error-text"></p>
+            </div>
+
+            <div id="container-list" class="container-grid">
+                <!-- Containers will be rendered here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="docker.js"></script>
+</body>
+</html>
